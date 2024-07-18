@@ -1,36 +1,15 @@
-<!DOCTYPE html>
-<html lang="EN">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Home / X</title>
-
-    <link href="https://bootswatch.com/5/sketchy/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-
-<body>
-    @include('layout.nav')
-    <div class="container py-4">
-        <div class="row">
-            @include('layout.leftnavigation')
-            <div class="col-6">
-                <div class="mt-3">
-                    <h4>About Adventurer's Guild</h4>
-                </div>
-                <hr>
+@extends('layout.layout')
+@section('content')
+    <div class="row">
+        @include('layout.leftnavigation')
+        <div class="col-6">
+            <div class="mt-3">
+                <h1>About Adventurer's Guild</h1>
             </div>
-            @include('layout.rightnavigation')
+            <hr>
+        <img src="https://adventuresincardboard.com/wp-content/uploads/65490594_698772483909743_3928218191758622720_n.jpg" alt="Board Media" class="img-fluid mb-3">
+        <h4>Adventurer's Guild is a social media platform designed exclusively for adventurers of various classes, including warriors, mages, pirates, wizards, and thieves. Our platform fosters a professional environment where adventurers can connect, share experiences, and forge alliances. Whether you seek camaraderie, strategic partnerships, or knowledge exchange, Adventurer's Guild offers a unique space for every adventurer to thrive and collaborate. Join us in building a network of exceptional individuals dedicated to mutual growth and success in their quests.</h4>
         </div>
+        @include('layout.rightnavigation')
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-    </script>
-</body>
-
-</html>
+@endsection

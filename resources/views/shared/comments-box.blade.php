@@ -9,7 +9,7 @@
         </div>
     </form>
     <hr>
-    @foreach ($board->comments as $comment)
+    @forelse ($board->comments as $comment)
     <div class="d-flex align-items-start">
         <img style="width:35px" class="me-2 avatar-sm rounded-circle"
             src="{{ $comment->user->getImageURL() }}"
@@ -18,12 +18,14 @@
             <div class="d-flex justify-content-between mt-2">
                 <h6 class=""> {{ $comment->user->name }}
                 </h6>
-                <small class="fs-6 fw-light text-muted"> {{ $comment->created_at }}</small>
+                <small class="fs-6 fw-light text-muted"> <span class="fas fa-clock"> </span> {{ $comment->created_at->diffForHumans() }}</small>
             </div>
             <p class="fs-6 mt-3 fw-light">
                 {{ $comment->content }}
             </p>
         </div>
     </div>
-    @endforeach
+    @empty
+        <p class="text-center mt-4">Be the first to comment on this board!</p>
+    @endforelse
 </div>

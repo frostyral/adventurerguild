@@ -4,21 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Board;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BoardController extends Controller
 {
-    public function store(){
-
-        $validated = request()->validate([
-            'content' => 'required|min:5|max:100',
+    public function store(Request $request){
+        $validated = $request->validate([
+            'content' => 'nullable|min:5|max:100',
+            'media' => 'nullable|image',
         ]);
+
+        if($request->hasFile('media')) {
+            $imagePath = $request->file('media')->store('boardmedia', 'public');
+            $validated['media'] = $imagePath;
+        }
 
         $validated['user_id'] = auth()->id();
 
-
         Board::create($validated);
 
-        return redirect()->route('dashboard')->with('success','Board created successfully!');
+        return redirect()->route('dashboard')->with('success', 'Board created successfully!');
     }
     public function destroy(Board $board){
 
@@ -49,32 +54,30 @@ class BoardController extends Controller
 
     }
 
-    public function update(Board $board)
+    public function update(Board $board, Request $request)
     {
+        if(auth()->id() !== $board->user_id) {
+            abort(404, '');
+        }
 
-        // if(auth()->id() !== $board->user_id){
-        //     abort(404,'');
-        // }
-
-        // $validated = request()->validate([
-        //     'board' => 'required|min:5|max:100',
-        // ]);
-
-
-
-        //$board->update($validated);
-
-        //return redirect()->route('board.show', $board->id)->with('success','Board updated successfully!');
-
-
-        request()->validate([
+        $validated = $request->validate([
             'content' => 'required|min:5|max:100',
+            'media' => 'nullable|image',
         ]);
 
-        $board->content = request()->get('content','');
-        $board->save();
+        if($request->hasFile('media')) {
+            // Delete the old image if it exists
+            if($board->media) {
+                Storage::disk('public')->delete($board->media);
+            }
+            // Store the new image
+            $imagePath = $request->file('media')->store('boardmedia', 'public');
+            $validated['media'] = $imagePath;
+        }
 
-        return redirect()->route('board.show',$board->id)->with('success','Board updated successfully!');
+        $board->update($validated);
+        return redirect()->route('board.show', $board->id)->with('success', 'Board updated successfully!');
     }
+
 
 }

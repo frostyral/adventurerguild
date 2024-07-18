@@ -10,6 +10,10 @@
                     <a class="{{ (Route::is('about')) ? 'text-white bg-primary rounded' : ''}} nav-link" href="{{ url('about') }}" href="#">
                         <span>About</span></a>
                 </li>
+                <li class="nav-item">
+                    <a class="{{ (Route::is('feed')) ? 'text-white bg-primary rounded' : ''}} nav-link" href="{{ url('feed') }}" href="#">
+                        <span>Alliance Board</span></a>
+                </li>
             </ul>
         </div>
         <div class="card-footer text-center py-2">

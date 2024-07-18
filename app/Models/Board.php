@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Board extends Model
 {
@@ -12,6 +13,7 @@ class Board extends Model
     protected $fillable = [
         'user_id',
         'content',
+        'media',
     ];
 
     public function comments(){
@@ -25,4 +27,12 @@ class Board extends Model
     public function likes(){
         return $this->belongsToMany(User::class,'board_like',)->withTimestamps();
     }
+
+    public function getMediaURL(){
+        if($this->media){
+            return url('storage/'.$this->media);
+        }
+        return "https://pbs.twimg.com/media/FeG09JKUcAAG2dD.png";
+    }
+
 }

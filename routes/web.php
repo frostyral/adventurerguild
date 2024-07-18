@@ -5,6 +5,7 @@ use App\Http\Controllers\BoardController;
 use App\Http\Controllers\BoardLikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -52,7 +53,8 @@ Route::post('/login', [AuthController::class,'authenticate']);
 Route::post('/logout', [AuthController::class,'logout'])->name('logout');
 
 // User Page
-Route::resource('users',UserController::class)->only('show','edit','update')->middleware('auth');
+Route::resource('users',UserController::class)->only('show');
+Route::resource('users',UserController::class)->only('edit','update')->middleware('auth');
 
 // User Page
 Route::get('profile',[UserController::class,'profile'])->name('profile')->middleware('auth');
@@ -65,6 +67,10 @@ Route::delete('users/{user}/unfollow',[FollowerController::class,'unfollow'])->m
 Route::get('/about',function(){
     return view('about');
 })->name('about');
+
+// Feed page
+Route::get('/feed', FeedController::class)->middleware('auth')->name('feed');
+
 
 // Follow / Unfollow Function
 Route::post('boards/{board}/like',[BoardLikeController::class,'like'])->middleware('auth')->name('boards.like');

@@ -67,6 +67,7 @@ class User extends Authenticatable
     public function follows(User $user){
         return $this->followings()->where('user_id',$user->id)->exists();
     }
+
     public function getImageURL(){
         if($this->image){
             return url('storage/'.$this->image);
@@ -76,5 +77,9 @@ class User extends Authenticatable
 
     public function likes(){
         return $this->belongsToMany(Board::class,'board_like',)->withTimestamps();
+    }
+
+    public function likesBoard(Board $board){
+        return $this->likes()->where('board_id',$board->id)->exists();
     }
 }
