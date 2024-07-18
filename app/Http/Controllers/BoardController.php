@@ -9,19 +9,22 @@ class BoardController extends Controller
 {
     public function store(){
 
-        request()->validate([
-            'board' => 'required|min:5|max:100',
+        $validated = request()->validate([
+            'content' => 'required|min:5|max:100',
         ]);
 
-        $board = Board::create(
-            [
-                'content' => request()->get('board',''),
-            ]
-        );
+        $validated['user_id'] = auth()->id();
 
-        return redirect()->route('dashboard')->with('success','Idea created successfully!');
+
+        Board::create($validated);
+
+        return redirect()->route('dashboard')->with('success','Board created successfully!');
     }
     public function destroy(Board $board){
+
+        if(auth()->id() !== $board->user_id){
+            abort(404,'');
+        }
 
         $board->delete();
 
@@ -36,6 +39,11 @@ class BoardController extends Controller
 
     public function edit(Board $board)
     {
+
+        if(auth()->id() !== $board->user_id){
+            abort(404,'');
+        }
+
         $editing = true;
         return view('boards.show',compact('board','editing'));
 
@@ -44,14 +52,18 @@ class BoardController extends Controller
     public function update(Board $board)
     {
 
-        request()->validate([
+        if(auth()->id() !== $board->user_id){
+            abort(404,'');
+        }
+
+        $validated = request()->validate([
             'board' => 'required|min:5|max:100',
         ]);
 
-        $board->content = request()->get('board','');
-        $board->save();
+        $board->update($validated);
 
-        return redirect()->route('board.show', $board->id);
+
+        return redirect()->route('board.show', $board->id)->with('success','Board updated successfully!');
 
     }
 

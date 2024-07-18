@@ -3,9 +3,9 @@
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <img style="width:50px" class="me-2 avatar-sm rounded-circle"
-                    src="https://i1.sndcdn.com/artworks-8EE51mfTnCD6YUJs-3MrRZg-t500x500.jpg" alt="Lotus Avatar">
+                    src="https://i1.sndcdn.com/artworks-8EE51mfTnCD6YUJs-3MrRZg-t500x500.jpg" alt="{{ $board->user->name }} Avatar">
                 <div>
-                    <h5 class="card-title mb-0"><a href="#"> Lotus
+                    <h5 class="card-title mb-0"><a href="#"> {{ $board->user->name }}
                         </a></h5>
                 </div>
             </div>
@@ -14,8 +14,10 @@
                     @csrf
                     @method('delete')
                     <a class="" href="{{ route('board.show',$board->id) }}">View Post</a>
+                    @if(auth()->id() == $board->user_id)
                     <a class="mx-2" href="{{ route('board.edit',$board->id) }}">Edit</a>
                     <button class="btn btn-danger btn-sm">X</button>
+                    @endif
                 </form>
             </div>
         </div>

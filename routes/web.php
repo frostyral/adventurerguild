@@ -4,31 +4,48 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AuthController;
-use App\Models\Board;
 use Illuminate\Support\Facades\Route;
 
 // Default Page
 Route::get('/', [DashboardController::class,'index'])->name('dashboard');
 
-// Create Board
-Route::post('/board', [BoardController::class,'store'])->name('board.create');
+// Board Group Routes
+Route::group([ 'prefix'=>'board','as'=>'board.'], function () {
+    // Create Board
+    Route::post('', [BoardController::class,'store'])->name('create');
 
-// Delete Board
-Route::delete('/board/{board}', [BoardController::class,'destroy'])->name('board.destroy');
+    // View Board
+    Route::get('/{board}', [BoardController::class,'show'])->name('show');
 
-// View Board
-Route::get('/board/{board}', [BoardController::class,'show'])->name('board.show');
+    // Need auth
+    Route::group(['middleware'=>['auth']], function () {
 
-// Edit Board
-Route::get('/board/{board}/edit', [BoardController::class,'edit'])->name('board.edit');
+        // Delete Board
+        Route::delete('/{board}', [BoardController::class,'destroy'])->name('destroy');
 
-// Update Board
-Route::put('/board/{board}', [BoardController::class,'update'])->name('board.update');
+        // Edit Board
+        Route::get('/{board}/edit', [BoardController::class,'edit'])->name('edit');
 
-// Comment Board
-Route::post('/board/{board}/comments', [CommentController::class,'store'])->name('board.comments.create');
+        // Update Board
+        Route::put('/{board}', [BoardController::class,'update'])->name('update');
+
+        // Comment Board
+        Route::post('/{board}/comments', [CommentController::class,'store'])->name('comments.create');
+
+    });
+});
+
+// Pages that need auth
 
 // Register Page
 Route::get('/register', [AuthController::class,'register'])->name('register');
-Route::post('/register', [AuthController::class,'store'])->name('login');
+Route::post('/register', [AuthController::class,'store']);
+
+// Login Page
+Route::get('/login', [AuthController::class,'login'])->name('login');
+Route::post('/login', [AuthController::class,'authenticate']);
+
+// Logout Function
+Route::post('/logout', [AuthController::class,'logout'])->name('logout');
+
 
