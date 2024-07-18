@@ -21,7 +21,7 @@
             @include('layout.leftnavigation')
             <div class="col-6">
                 <div class="mt-3">
-                    @include('shared.board-card')
+                    @include('boards.shared.board-card')
                 </div>
             </div>
             @include('layout.rightnavigation')

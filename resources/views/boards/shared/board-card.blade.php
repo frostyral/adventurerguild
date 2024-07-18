@@ -28,8 +28,8 @@
             @csrf
             @method('put')
             <div class="mb-3">
-                <textarea name="board" class="form-control" id="board" rows="3">{{ $board->content }}</textarea>
-                @error('success')
+                <textarea name="content" class="form-control" id="content" rows="3">{{ $board->content }}</textarea>
+                @error('content')
                     <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
                 @enderror
             </div>
@@ -43,10 +43,7 @@
         </p>
         @endif
         <div class="d-flex justify-content-between">
-            <div>
-                <a href="#" class="fw-light nav-link fs-6"> <span class="fas fa-heart me-1">
-                    </span> {{ $board->likes }} </a>
-            </div>
+            @include('boards.shared.like-button')
             <div>
                 <span class="fs-6 fw-light text-muted"> <span class="fas fa-clock"> </span>
                     {{ $board->created_at }} </span>

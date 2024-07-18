@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\BoardLikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FollowerController;
@@ -59,3 +60,12 @@ Route::get('profile',[UserController::class,'profile'])->name('profile')->middle
 // Follow / Unfollow Function
 Route::post('users/{user}/follow',[FollowerController::class,'follow'])->middleware('auth')->name('users.follow');
 Route::delete('users/{user}/unfollow',[FollowerController::class,'unfollow'])->middleware('auth')->name('users.unfollow');
+
+// About Page
+Route::get('/about',function(){
+    return view('about');
+})->name('about');
+
+// Follow / Unfollow Function
+Route::post('boards/{board}/like',[BoardLikeController::class,'like'])->middleware('auth')->name('boards.like');
+Route::delete('boards/{board}/unlike',[BoardLikeController::class,'unlike'])->middleware('auth')->name('boards.unlike');

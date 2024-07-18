@@ -26,7 +26,7 @@
                 <hr>
                     @foreach ($boards as $board)
                     <div class="mt-3">
-                        @include('shared.board-card')
+                        @include('boards.shared.board-card')
                     </div>
                     @endforeach
                     <div class="mt-3">

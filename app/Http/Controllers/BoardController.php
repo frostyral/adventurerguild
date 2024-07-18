@@ -52,19 +52,29 @@ class BoardController extends Controller
     public function update(Board $board)
     {
 
-        if(auth()->id() !== $board->user_id){
-            abort(404,'');
-        }
+        // if(auth()->id() !== $board->user_id){
+        //     abort(404,'');
+        // }
 
-        $validated = request()->validate([
-            'board' => 'required|min:5|max:100',
+        // $validated = request()->validate([
+        //     'board' => 'required|min:5|max:100',
+        // ]);
+
+
+
+        //$board->update($validated);
+
+        //return redirect()->route('board.show', $board->id)->with('success','Board updated successfully!');
+
+
+        request()->validate([
+            'content' => 'required|min:5|max:100',
         ]);
 
-        $board->update($validated);
+        $board->content = request()->get('content','');
+        $board->save();
 
-
-        return redirect()->route('board.show', $board->id)->with('success','Board updated successfully!');
-
+        return redirect()->route('board.show',$board->id)->with('success','Board updated successfully!');
     }
 
 }

@@ -73,4 +73,8 @@ class User extends Authenticatable
         }
         return "https://pbs.twimg.com/media/FeG09JKUcAAG2dD.png";
     }
+
+    public function likes(){
+        return $this->belongsToMany(Board::class,'board_like',)->withTimestamps();
+    }
 }

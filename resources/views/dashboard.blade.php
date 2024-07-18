@@ -21,11 +21,11 @@
             @include('layout.leftnavigation')
             <div class="col-6">
                 @include('shared.success-message')
-                @include('shared.submit-board')
+                @include('boards.shared.submit-board')
                 <hr>
                 @foreach ($boards as $board)
                 <div class="mt-3">
-                    @include('shared.board-card')
+                    @include('boards.shared.board-card')
                 </div>
                 @endforeach
                 <div class="mt-3">
