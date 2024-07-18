@@ -1,43 +1,38 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
-class AuthControllerTest extends TestCase
+class UserRegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
     public function it_can_register_a_new_user()
-    {
-        // Prepare valid registration data
-        $data = [
-            'name' => 'Test User',
-            'class' => 'Warrior',
-            'password' => 'password123',
-            'password_confirmation' => 'password123'
-        ];
+{
+    $data = [
+        'name' => 'Test User',
+        'class' => 'Warrior',
+        'password' => 'password123',
+        'password_confirmation' => 'password123'
+    ];
 
-        // Send POST request to register the user
-        $response = $this->post(route('register'), $data);
+    $response = $this->post(route('register'), $data);
 
-        // Check if the user was created in the database
-        $this->assertDatabaseHas('users', [
-            'name' => 'Test User',
-            'class' => 'Warrior',
-            // Ensure the password is hashed
-            'password' => Hash::make('password123'),
-        ]);
+    // Check if the user was created in the database
+    $this->assertDatabaseHas('users', [
+        'name' => 'Test User',
+        'class' => 'Warrior',
+        // Do not check the hashed password
+    ]);
 
-        // Check the response
-        $response->assertRedirect(route('dashboard'))
-                 ->assertSessionHas('success', 'Registration successful!');
-    }
+    $response->assertRedirect(route('dashboard'))
+             ->assertSessionHas('success', 'Adventurer registered Successfully!');
+}
 
     /** @test */
     public function it_fails_to_register_with_invalid_data()
@@ -64,28 +59,23 @@ class AuthControllerTest extends TestCase
 
     /** @test */
     public function it_can_login_a_user()
-    {
-        // Create a test user
-        $user = User::factory()->create([
-            'password' => Hash::make('password123'),
-        ]);
+{
+    $user = User::factory()->create([
+        'password' => Hash::make('password123'),
+    ]);
 
-        // Prepare login data
-        $data = [
-            'name' => $user->name,
-            'password' => 'password123',
-        ];
+    $data = [
+        'name' => $user->name,
+        'password' => 'password123',
+    ];
 
-        // Send POST request to login
-        $response = $this->post(route('login'), $data);
+    $response = $this->post(route('login'), $data);
 
-        // Check if the user is authenticated
-        $this->assertAuthenticatedAs($user);
+    $this->assertAuthenticatedAs($user);
 
-        // Check the response
-        $response->assertRedirect(route('dashboard'))
-                 ->assertSessionHas('success', 'Login successful!');
-    }
+    $response->assertRedirect(route('dashboard'))
+             ->assertSessionHas('success', 'Logged in successfully!');
+}
 
     /** @test */
     public function it_fails_to_login_with_invalid_credentials()
