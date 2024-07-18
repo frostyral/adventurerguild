@@ -3,9 +3,9 @@
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <img style="width:50px" class="me-2 avatar-sm rounded-circle"
-                    src="https://i1.sndcdn.com/artworks-8EE51mfTnCD6YUJs-3MrRZg-t500x500.jpg" alt="{{ $board->user->name }} Avatar">
+                    src="{{ $board->user->getImageURL() }}" alt="{{ $board->user->name }} Avatar">
                 <div>
-                    <h5 class="card-title mb-0"><a href="#"> {{ $board->user->name }}
+                    <h5 class="card-title mb-0"><a href="{{ route('users.show',$board->user->id) }}"> {{ $board->user->name }}
                         </a></h5>
                 </div>
             </div>

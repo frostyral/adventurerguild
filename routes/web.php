@@ -4,6 +4,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FollowerController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Default Page
@@ -48,4 +50,12 @@ Route::post('/login', [AuthController::class,'authenticate']);
 // Logout Function
 Route::post('/logout', [AuthController::class,'logout'])->name('logout');
 
+// User Page
+Route::resource('users',UserController::class)->only('show','edit','update')->middleware('auth');
 
+// User Page
+Route::get('profile',[UserController::class,'profile'])->name('profile')->middleware('auth');
+
+// Follow / Unfollow Function
+Route::post('users/{user}/follow',[FollowerController::class,'follow'])->middleware('auth')->name('users.follow');
+Route::delete('users/{user}/unfollow',[FollowerController::class,'unfollow'])->middleware('auth')->name('users.unfollow');

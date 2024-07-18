@@ -12,11 +12,11 @@
     @foreach ($board->comments as $comment)
     <div class="d-flex align-items-start">
         <img style="width:35px" class="me-2 avatar-sm rounded-circle"
-            src="https://i1.sndcdn.com/artworks-000457636320-x5vv30-t500x500.jpg"
-            alt="{{ Auth::user()->name }} Avatar">
+            src="{{ $comment->user->getImageURL() }}"
+            alt=" {{ $comment->user->name }}Avatar">
         <div class="w-100">
             <div class="d-flex justify-content-between mt-2">
-                <h6 class=""> {{ Auth::user()->name }}
+                <h6 class=""> {{ $comment->user->name }}
                 </h6>
                 <small class="fs-6 fw-light text-muted"> {{ $comment->created_at }}</small>
             </div>

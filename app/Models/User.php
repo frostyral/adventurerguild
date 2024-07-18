@@ -18,6 +18,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'about',
+        'image',
         'class',
         'password',
     ];
@@ -46,6 +48,29 @@ class User extends Authenticatable
     }
 
     public function boards(){
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Board::class)->latest();
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class)->latest();
+    }
+
+
+    public function followings(){
+        return $this->belongsToMany(User::class,'follower_user','follower_id','user_id')->withTimestamps();
+    }
+
+    public function followers(){
+        return $this->belongsToMany(User::class,'follower_user','user_id','follower_id')->withTimestamps();
+    }
+
+    public function follows(User $user){
+        return $this->followings()->where('user_id',$user->id)->exists();
+    }
+    public function getImageURL(){
+        if($this->image){
+            return url('storage/'.$this->image);
+        }
+        return "https://pbs.twimg.com/media/FeG09JKUcAAG2dD.png";
     }
 }
