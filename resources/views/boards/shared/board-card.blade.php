@@ -5,8 +5,35 @@
                 <img style="width:50px" class="me-2 avatar-sm rounded-circle"
                     src="{{ $board->user->getImageURL() }}" alt="{{ $board->user->name }} Avatar">
                 <div>
-                    <h5 class="card-title mb-0"><a href="{{ route('users.show',$board->user->id) }}"> {{ $board->user->name }}
-                        </a></h5>
+                    <h5 class="card-title mb-0"><a style="text-decoration:none" href="{{ route('users.show',$board->user->id) }}"> {{ $board->user->name }}
+
+                        @if($board->user->class == 'Warrior')
+                        <img style="width:20px" class="avatar-sm"
+                        src="https://nxcache.nexon.net/maplestory/img/icons/icon-job-warrior.gif" alt="Warrior Icon">
+                        @endif
+
+                        @if($board->user->class == 'Magician')
+                        <img style="width:20px" class="avatar-sm"
+                        src="https://nxcache.nexon.net/maplestory/img/icons/icon-job-magician.gif" alt="Magician Icon">
+                        @endif
+
+                        @if($board->user->class == 'Bowman')
+                        <img style="width:20px" class="avatar-sm"
+                        src="https://nxcache.nexon.net/maplestory/img/icons/icon-job-bowman.gif" alt="Bowman Icon">
+                        @endif
+
+                        @if($board->user->class == 'Thief')
+                        <img style="width:20px" class="avatar-sm"
+                        src="https://nxcache.nexon.net/maplestory/img/icons/icon-job-thief.gif" alt="Thief Icon">
+                        @endif
+
+                        @if($board->user->class == 'Pirate')
+                        <img style="width:20px" class="avatar-sm"
+                        src="https://nxcache.nexon.net/maplestory/img/icons/icon-job-pirate.gif" alt="Pirate Icon">
+                        @endif
+
+                    </a>
+                    </h5>
                         <p class="mb-0 small text-truncate">{{ $board->user->class }}</p>
                 </div>
             </div>
